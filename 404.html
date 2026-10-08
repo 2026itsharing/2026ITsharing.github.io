@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>404 Not Found</title>
+<!-- 所有樣式都內嵌，讓任何深度的錯誤路徑（例如 /a/b/c）都能正常顯示 -->
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2933;
+    --muted: #616e7c;
+    --line: #d9dee4;
+    --accent: #2563eb;
+    --dbg-bg: #1e1f24;
+    --dbg-panel: #26282f;
+    --dbg-text: #d7dae0;
+    --dbg-muted: #8a909c;
+    --dbg-red: #ff6b6b;
+    --dbg-yellow: #ffd166;
+    --dbg-green: #7bd88f;
+    --dbg-key: #82aaff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.6;
+  }
+
+  /* ---------- 原本「開發者想讓你看到」的友善 404 ---------- */
+  .friendly {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 16px 32px;
+    text-align: center;
+  }
+  .friendly .code {
+    font-size: clamp(64px, 18vw, 120px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .friendly h1 { font-size: 22px; margin: 16px 0 8px; }
+  .friendly p { color: var(--muted); margin: 0 0 20px; }
+  .friendly a.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  /* ---------- 忘記關掉的 Debug 輸出（資訊外洩） ---------- */
+  .debug {
+    background: var(--dbg-bg);
+    color: var(--dbg-text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 13px;
+    padding: 24px 16px 48px;
+  }
+  .debug .wrap { max-width: 1000px; margin: 0 auto; }
+  .debug .banner {
+    border-left: 4px solid var(--dbg-yellow);
+    background: rgba(255, 209, 102, .08);
+    padding: 8px 12px;
+    margin-bottom: 20px;
+    color: var(--dbg-yellow);
+  }
+  .debug .exc { color: var(--dbg-red); font-size: 16px; font-weight: 700; word-break: break-word; }
+  .debug .msg { margin: 4px 0 24px; word-break: break-word; }
+  .debug h2 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--dbg-muted);
+    margin: 28px 0 8px;
+    border-bottom: 1px solid #3a3d46;
+    padding-bottom: 6px;
+  }
+  .debug pre {
+    background: var(--dbg-panel);
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 0;
+    white-space: pre;
+  }
+  .debug .frame-no { color: var(--dbg-muted); }
+  .debug .fn { color: var(--dbg-green); }
+  .debug .path { color: var(--dbg-text); }
+  .debug .ln { color: var(--dbg-yellow); }
+
+  .kv { width: 100%; border-collapse: collapse; background: var(--dbg-panel); border-radius: 6px; overflow: hidden; }
+  .kv td { padding: 6px 12px; border-top: 1px solid #33363f; vertical-align: top; word-break: break-all; }
+  .kv tr:first-child td { border-top: 0; }
+  .kv td.k { color: var(--dbg-key); width: 34%; white-space: nowrap; word-break: normal; }
+  .kv tr.hot td { background: rgba(255, 107, 107, .12); }
+  .kv tr.hot td.v { color: var(--dbg-red); font-weight: 700; }
+
+  @media (max-width: 600px) {
+    .kv td.k { white-space: normal; width: 42%; }
+  }
+</style>
+</head>
+<body>
+
+  <section class="friendly">
+    <div class="code">404</div>
+    <h1>找不到您要的頁面</h1>
+    <p>您要找的頁面可能已被移除、名稱已變更，或暫時無法使用。</p>
+    <a class="btn" id="home-link" href="/">回到首頁</a>
+  </section>
+
+  <section class="debug" aria-label="debug output">
+    <div class="wrap">
+      <div class="banner">⚠ APP_DEBUG=true — Detailed error output is enabled. Do not use in production.</div>
+
+      <div class="exc">Portal\Routing\Exception\RouteNotFoundException</div>
+      <div class="msg">No route found for "GET <span id="req-path">/</span>"</div>
+
+      <h2>Stack trace</h2>
+<pre><span class="frame-no">#0</span> <span class="path">/var/www/orbit-portal/vendor/portal/routing/src/Router.php</span>(<span class="ln">214</span>): <span class="fn">Router-&gt;match()</span>
+<span class="frame-no">#1</span> <span class="path">/var/www/orbit-portal/vendor/portal/http/src/Kernel.php</span>(<span class="ln">87</span>): <span class="fn">Router-&gt;dispatch(Request)</span>
+<span class="frame-no">#2</span> <span class="path">/var/www/orbit-portal/app/Middleware/SsoAuth.php</span>(<span class="ln">41</span>): <span class="fn">Kernel-&gt;handle(Request)</span>
+<span class="frame-no">#3</span> <span class="path">/var/www/orbit-portal/app/Middleware/LegacyHelpdeskBridge.php</span>(<span class="ln">19</span>): <span class="fn">SsoAuth-&gt;__invoke(Request, Closure)</span>
+<span class="frame-no">#4</span> <span class="path">/var/www/orbit-portal/public/index.php</span>(<span class="ln">12</span>): <span class="fn">Kernel-&gt;run()</span>
+<span class="frame-no">#5</span> {main}</pre>
+
+      <h2>Request</h2>
+      <table class="kv">
+        <tr><td class="k">REQUEST_METHOD</td><td class="v">GET</td></tr>
+        <tr><td class="k">REQUEST_URI</td><td class="v" id="req-uri">/</td></tr>
+        <tr><td class="k">HTTP_HOST</td><td class="v" id="req-host">portal.local</td></tr>
+        <tr><td class="k">HTTP_USER_AGENT</td><td class="v" id="req-ua">-</td></tr>
+        <tr><td class="k">REQUEST_TIME</td><td class="v" id="req-time">-</td></tr>
+      </table>
+
+      <h2>Server</h2>
+      <table class="kv">
+        <tr><td class="k">SERVER_SOFTWARE</td><td class="v">Apache/2.4.29 (Ubuntu)</td></tr>
+        <tr><td class="k">PHP_VERSION</td><td class="v">7.2.24-0ubuntu0.18.04.17</td></tr>
+        <tr><td class="k">SERVER_NAME</td><td class="v">tpe-portal-web01.corp.orbit.internal</td></tr>
+        <tr><td class="k">SERVER_ADDR</td><td class="v">10.20.30.15</td></tr>
+        <tr><td class="k">DOCUMENT_ROOT</td><td class="v">/var/www/orbit-portal/public</td></tr>
+        <tr><td class="k">GIT_COMMIT</td><td class="v">a3f9c2e (release/2024-11-hotfix)</td></tr>
+      </table>
+
+      <h2>Environment</h2>
+      <table class="kv">
+        <tr><td class="k">APP_ENV</td><td class="v">production</td></tr>
+        <tr><td class="k">APP_DEBUG</td><td class="v">true</td></tr>
+        <tr><td class="k">DB_HOST</td><td class="v">10.20.40.8</td></tr>
+        <tr><td class="k">DB_DATABASE</td><td class="v">orbit_portal</td></tr>
+        <tr><td class="k">DB_USERNAME</td><td class="v">portal_app</td></tr>
+        <tr><td class="k">DB_PASSWORD</td><td class="v">P@ssw0rd2024!</td></tr>
+        <tr><td class="k">LDAP_SERVER</td><td class="v">ldap://dc01.corp.orbit.internal:389</td></tr>
+        <tr><td class="k">SMTP_RELAY</td><td class="v">10.20.10.25:25</td></tr>
+        <tr><td class="k">ADMIN_CONTACT</td><td class="v">it-portal-admin@orbit.example</td></tr>
+        <tr class="hot"><td class="k">FLAG</td><td class="v">flag{2026_IT_Sharing#3}</td></tr>
+      </table>
+    </div>
+  </section>
+
+<script>
+  // 把實際請求的路徑填進 debug 輸出，讓「亂打的網址」真的出現在錯誤畫面上。
+  // 一律使用 textContent，避免把網址內容當成 HTML 執行。
+  (function () {
+    var path = window.location.pathname + window.location.search;
+    document.getElementById('req-path').textContent = path;
+    document.getElementById('req-uri').textContent = path;
+    document.getElementById('req-host').textContent = window.location.host || 'portal.local';
+    document.getElementById('req-ua').textContent = navigator.userAgent;
+    document.getElementById('req-time').textContent = new Date().toISOString();
+  })();
+</script>
+</body>
+</html>
