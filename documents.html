@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>文件中心 - Oiia 員工自助服務入口</title>
+<link rel="icon" href="oiia.gif" type="image/gif">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2933;
+    --muted: #616e7c;
+    --line: #e1e5ea;
+    --accent: #2563eb;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.7;
+  }
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+  }
+  header .wrap { display: flex; align-items: center; gap: 10px; }
+  header a { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+  .logo { width: 44px; height: 44px; object-fit: contain; flex: none; }
+  header strong { font-size: 18px; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
+  .crumb { font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .crumb a { color: var(--accent); text-decoration: none; }
+  h1 { font-size: 24px; margin: 8px 0 4px; }
+  .meta { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  .list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+  }
+  .list li:first-child { border-top: 0; }
+  .list small { display: block; color: var(--muted); font-size: 13px; }
+  .list a { color: var(--accent); text-decoration: none; }
+  .list a:hover { text-decoration: underline; }
+  .lock { flex: none; color: var(--muted); font-size: 13px; white-space: nowrap; }
+  h2 { font-size: 18px; margin: 0 0 10px; }
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="./">
+        <img class="logo" src="oiia.gif" alt="" width="44" height="44">
+        <strong>Oiia 員工自助服務入口</strong>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="crumb"><a href="./">首頁</a> › 文件中心</div>
+    <h1>文件中心</h1>
+    <p class="meta">公司規章、表單與教育訓練教材。標示 🔒 的文件請登入內網後下載。</p>
+
+    <h2>公司規章</h2>
+    <ul class="list">
+        <li><span>員工工作規則<small>人資部｜2026/01/02 更新</small></span><span class="lock">🔒 需登入</span></li>
+        <li><span>差勤管理辦法<small>人資部｜2026/03/15 更新</small></span><span class="lock">🔒 需登入</span></li>
+        <li><span>資訊安全政策<small>資訊部｜2026/06/30 更新</small></span><span class="lock">🔒 需登入</span></li>
+    </ul>
+
+    <h2>表單下載</h2>
+    <ul class="list">
+        <li><span>出差申請單<small>總務部｜Word</small></span><span class="lock">🔒 需登入</span></li>
+        <li><span>帳號權限申請單<small>資訊部｜Word</small></span><span class="lock">🔒 需登入</span></li>
+        <li><span>設備借用單<small>總務部｜Excel</small></span><span class="lock">🔒 需登入</span></li>
+    </ul>
+
+    <h2>IT 操作說明</h2>
+    <ul class="list">
+        <li><span><a href="vpn-setup.html">VPN 用戶端安裝說明</a><small>資訊部 網路組｜2026/11/02 更新</small></span><span class="lock">公開</span></li>
+        <li><span>印表機驅動程式安裝<small>資訊部 網路組｜2026/08/20 更新</small></span><span class="lock">🔒 需登入</span></li>
+        <li><span>新進同仁電腦設定指南<small>資訊部｜2026/05/12 更新</small></span><span class="lock">🔒 需登入</span></li>
+    </ul>
+
+    <h2>教育訓練</h2>
+    <ul class="list">
+        <li><span>2026 資安意識教育訓練<small>資訊部｜線上課程</small></span><span class="lock">🔒 需登入</span></li>
+        <li><span>新人到職訓練手冊<small>人資部｜PDF</small></span><span class="lock">🔒 需登入</span></li>
+    </ul>
+  </main>
+
+  <footer>© 2026 Oiia Group（虛構示範網站，僅供內部 IT Sharing 使用）</footer>
+</body>
+</html>
