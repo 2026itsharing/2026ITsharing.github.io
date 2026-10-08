@@ -124,10 +124,6 @@
         <input id="empid" type="text" placeholder="例如 OI-12345" autocomplete="off">
         <p class="hint" id="h-empid"></p>
 
-        <label for="manager">直屬主管姓名</label>
-        <input id="manager" type="text" placeholder="英文名即可" autocomplete="off">
-        <p class="hint" id="h-manager"></p>
-
         <label for="ext">公司分機</label>
         <input id="ext" type="text" inputmode="numeric" placeholder="4 碼數字" autocomplete="off">
         <p class="hint" id="h-ext"></p>
@@ -153,24 +149,21 @@
     var HASH = {
       account: 'e7d60fc220522ce1223bc7ffc7001e1d47ce0b945ea5aafd5143f9fc856404cd',
       empid: '37c867b1d100c25d4a79dfce42307fbcb1d203809caddef63d74f6254936af7d',
-      manager: 'b72ec342006cfb104a5d0d4dd77ffb468462687691fb1a52d296d76e065469b8',
       ext: 'f6d8f2da4c8857916817a5aa3b486a879ee7a460dc4f8cd4e3588713690afa27'
     };
-    var IV = 'PGlFN5TZKnTPyWlc';
-    var CT = 'ns6dDQTWi/mSqXDQuH95R+Ykoj+gnqoxKO+50bqqbDj7AAPuG2DC';
+    var IV = 'syl2Gf36Z43+K81R';
+    var CT = 'Fec2Uh/YIMQ0w91nyKOn6SlbkjFBu9EjGBXrLlA6xyJLOlxJ/Rtn';
     var MSG = {
       account: '查無此帳號',
       empid: '員工編號與紀錄不符',
-      manager: '直屬主管與紀錄不符',
       ext: '分機與紀錄不符'
     };
-    var FIELDS = ['account', 'empid', 'manager', 'ext'];
+    var FIELDS = ['account', 'empid', 'ext'];
 
     function norm(field, v) {
       v = (v || '').trim();
       if (field === 'account') return v.toLowerCase().replace(/@.*$/, '').replace(/\s+/g, '');
       if (field === 'empid') return v.toUpperCase().replace(/[^A-Z0-9]/g, '');
-      if (field === 'manager') return v.toLowerCase().replace(/\s+/g, '');
       if (field === 'ext') return v.replace(/\D/g, '');
       return v;
     }
@@ -224,7 +217,7 @@
           result.textContent = '身分驗證失敗，請確認資料後重新送出。';
           return;
         }
-        var keyText = [vals.account, vals.empid, vals.manager, vals.ext].join('|');
+        var keyText = [vals.account, vals.empid, vals.ext].join('|');
         return sha256(keyText).then(function (raw) {
           return crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);
         }).then(function (key) {

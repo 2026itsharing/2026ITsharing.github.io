@@ -57,6 +57,24 @@
   .news a { color: var(--accent); text-decoration: none; }
   .news a:hover { text-decoration: underline; }
   .news time { color: var(--muted); font-size: 13px; margin-right: 8px; }
+  .mission {
+    margin-top: 32px;
+    background: var(--card);
+    border: 1px dashed var(--accent);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .mission h2 { font-size: 18px; margin: 0 0 6px; }
+  .mission p { margin: 0; color: var(--muted); font-size: 14px; }
+  .mission code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 15px;
+    color: var(--text);
+    background: #eef3ff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    word-break: break-all;
+  }
   footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
   footer .follow { margin: 0 0 6px; }
   footer a { color: var(--accent); text-decoration: none; }
@@ -104,6 +122,10 @@
         <li><time>2026/11/16</time><a href="servicedesk.html">新版 IT 報修系統正式上線，舊版網址將不再提供服務。</a></li>
         <li><time>2026/11/02</time><a href="vpn-setup.html">VPN 用戶端更新，請於月底前完成安裝。</a></li>
       </ul>
+    </section>
+    <section class="mission">
+      <h2>🚩 闖關任務</h2>
+      <p>本站共藏有 <b>5</b> 個 flag，格式統一為 <code>flag{2026_IT_Sharing#編號}</code>，編號為 1～5。</p>
     </section>
   </main>
 
