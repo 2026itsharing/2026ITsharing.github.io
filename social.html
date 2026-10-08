@@ -105,6 +105,44 @@
     font-size: 14px;
   }
   .reply b { font-size: 13px; }
+  .acts button {
+    flex: 1;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    padding: 4px 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .acts button:hover { background: var(--bg); }
+  .acts button.on { color: var(--brand); font-weight: 700; }
+  .acts span { flex: 1; text-align: center; padding: 4px 0; }
+  .cmts { border-top: 1px solid var(--line); padding-top: 8px; }
+  .cmts[hidden] { display: none; }
+  .cmts .reply.mine { background: var(--brand-soft); }
+  .cform { display: flex; gap: 8px; margin: 4px 0 10px; }
+  .cform input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font: inherit;
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .cform button {
+    border: 0;
+    border-radius: 999px;
+    padding: 6px 14px;
+    background: var(--brand);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
   footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
 </style>
 </head>
@@ -128,39 +166,127 @@
       </div>
     </section>
 
-    <article class="post">
+    <article class="post" data-id="p-helpdesk">
       <div class="phead"><div class="av">E</div><div><b>EricDY</b><time>2026年11月20日 · 公開</time></div></div>
       <p class="ptext">新版 IT 報修系統上線囉 🎉
 網路相關的問題報修時，指派人請直接選我的 AD 帳號 ericdy 🙏
 <span class="tag">#IT人的日常</span></p>
-      <div class="acts"><span>👍 48</span><span>💬 6 則留言</span><span>↗ 分享</span></div>
+      <div class="acts"><button type="button" class="like" data-n="48" aria-pressed="false">👍 48</button><button type="button" class="ctog" data-n="6" aria-expanded="false">💬 6 則留言</button><span>↗ 分享</span></div>
     </article>
 
-    <article class="post">
+    <article class="post" data-id="p-anniv">
       <div class="phead"><div class="av">E</div><div><b>EricDY</b><time>2026年11月16日 · 公開</time></div></div>
       <p class="ptext">在 Oiia 資訊部滿三年了 🎉
 這張員工編號 OI-23087 的識別證也陪我三年了，謝謝一路上照顧我的同事們！
 <span class="tag">#到職三週年</span></p>
       <a href="photos/eric-badge.jpg"><img class="pimg" src="photos/eric-badge.jpg" alt="桌上的 Oiia Group 員工識別證" width="640" height="480" loading="lazy"></a>
-      <div class="acts"><span>👍 203</span><span>💬 34 則留言</span><span>↗ 分享</span></div>
+      <div class="acts"><button type="button" class="like" data-n="203" aria-pressed="false">👍 203</button><button type="button" class="ctog" data-n="34" aria-expanded="false">💬 34 則留言</button><span>↗ 分享</span></div>
     </article>
 
-    <article class="post">
+    <article class="post" data-id="p-boba">
       <div class="phead"><div class="av">E</div><div><b>EricDY</b><time>2026年11月9日 · 公開</time></div></div>
       <p class="ptext">感謝我的直屬主管 David 請全組喝手搖 🧋
 新報修系統上線前最後衝刺！資訊部衝啊 💪</p>
-      <div class="acts"><span>👍 89</span><span>💬 12 則留言</span><span>↗ 分享</span></div>
+      <div class="acts"><button type="button" class="like" data-n="89" aria-pressed="false">👍 89</button><button type="button" class="ctog" data-n="12" aria-expanded="false">💬 12 則留言</button><span>↗ 分享</span></div>
     </article>
 
-    <article class="post">
+    <article class="post" data-id="p-ext">
       <div class="phead"><div class="av">E</div><div><b>EricDY</b><time>2026年11月3日 · 公開</time></div></div>
       <p class="ptext">拜託大家有事打我的公司分機 2716 😂
 不要一直敲 Teams，我真的回不完 🙏</p>
       <div class="reply"><b>Amy Lin</b>　哈哈哈收到！明天就打爆你分機 📞</div>
-      <div class="acts"><span>👍 67</span><span>💬 9 則留言</span><span>↗ 分享</span></div>
+      <div class="acts"><button type="button" class="like" data-n="67" aria-pressed="false">👍 67</button><button type="button" class="ctog" data-n="9" aria-expanded="false">💬 9 則留言</button><span>↗ 分享</span></div>
     </article>
   </main>
 
   <footer>Purrlink 為虛構社群平台，本頁人物與內容皆為虛構，僅供內部 IT Sharing 使用。</footer>
+  <script>
+  (function () {
+    var KEY = 'purrlink-social';
+    var state = {};
+    try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+    function save() {
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    var seed = {
+      'p-helpdesk': [['Kelly Wu', '新系統介面好清爽 👍']],
+      'p-anniv': [['Amy Lin', '三週年快樂 🎉'], ['Jason Ho', '恭喜！再來三年 💪']],
+      'p-boba': [['Amy Lin', '謝謝 David 🧋']],
+      'p-ext': []
+    };
+
+    function addReply(list, name, text, mine) {
+      var div = document.createElement('div');
+      div.className = mine ? 'reply mine' : 'reply';
+      var b = document.createElement('b');
+      b.textContent = name;
+      div.appendChild(b);
+      div.appendChild(document.createTextNode('　' + text));
+      list.appendChild(div);
+    }
+
+    document.querySelectorAll('.post[data-id]').forEach(function (post) {
+      var id = post.dataset.id;
+      var s = state[id] || (state[id] = { liked: false, comments: [] });
+      var like = post.querySelector('.like');
+      var ctog = post.querySelector('.ctog');
+      var likeBase = +like.dataset.n;
+      var cBase = +ctog.dataset.n;
+
+      var panel = document.createElement('div');
+      panel.className = 'cmts';
+      panel.hidden = true;
+      var list = document.createElement('div');
+      var form = document.createElement('form');
+      form.className = 'cform';
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.maxLength = 200;
+      input.placeholder = '留言⋯';
+      input.setAttribute('aria-label', '輸入留言');
+      var send = document.createElement('button');
+      send.type = 'submit';
+      send.textContent = '送出';
+      form.appendChild(input);
+      form.appendChild(send);
+      panel.appendChild(list);
+      panel.appendChild(form);
+      post.appendChild(panel);
+
+      (seed[id] || []).forEach(function (c) { addReply(list, c[0], c[1], false); });
+      s.comments.forEach(function (t) { addReply(list, '你', t, true); });
+
+      function render() {
+        like.textContent = '👍 ' + (likeBase + (s.liked ? 1 : 0));
+        like.classList.toggle('on', s.liked);
+        like.setAttribute('aria-pressed', String(s.liked));
+        ctog.textContent = '💬 ' + (cBase + s.comments.length) + ' 則留言';
+      }
+      render();
+
+      like.addEventListener('click', function () {
+        s.liked = !s.liked;
+        save();
+        render();
+      });
+      ctog.addEventListener('click', function () {
+        panel.hidden = !panel.hidden;
+        ctog.setAttribute('aria-expanded', String(!panel.hidden));
+        if (!panel.hidden) input.focus();
+      });
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var t = input.value.trim();
+        if (!t) return;
+        s.comments.push(t);
+        save();
+        addReply(list, '你', t, true);
+        input.value = '';
+        render();
+      });
+    });
+  })();
+  </script>
 </body>
 </html>
