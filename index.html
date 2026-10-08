@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Oiia 員工自助服務入口</title>
+<link rel="icon" href="oiia.gif" type="image/gif">
 <style>
   :root {
     --bg: #f4f5f7;
@@ -27,11 +28,7 @@
     border-bottom: 1px solid var(--line);
   }
   header .wrap { display: flex; align-items: center; gap: 10px; }
-  .logo {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #60a5fa, var(--accent));
-    flex: none;
-  }
+  .logo { width: 44px; height: 44px; object-fit: contain; flex: none; }
   header strong { font-size: 18px; }
   .wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
   h1 { font-size: 24px; margin: 24px 0 4px; }
@@ -62,7 +59,7 @@
 <body>
   <header>
     <div class="wrap">
-      <div class="logo" aria-hidden="true"></div>
+      <img class="logo" src="oiia.gif" alt="" width="44" height="44">
       <strong>Oiia 員工自助服務入口</strong>
     </div>
   </header>
