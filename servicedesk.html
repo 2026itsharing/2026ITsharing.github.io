@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>新版 IT 報修 - Oiia 員工自助服務入口</title>
+<link rel="icon" href="oiia.gif" type="image/gif">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2933;
+    --muted: #616e7c;
+    --line: #e1e5ea;
+    --accent: #2563eb;
+    --danger: #c0392b;
+    --ok: #1e7f4f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.6;
+  }
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+  }
+  header .wrap { display: flex; align-items: center; gap: 10px; }
+  header a { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+  .logo { width: 44px; height: 44px; object-fit: contain; flex: none; }
+  header strong { font-size: 18px; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
+  .crumb { font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .crumb a { color: var(--accent); text-decoration: none; }
+  .login {
+    max-width: 400px;
+    margin: 24px auto 0;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 24px;
+  }
+  .login h1 { font-size: 22px; margin: 0 0 4px; text-align: center; }
+  .login .sub { color: var(--muted); font-size: 14px; text-align: center; margin: 0 0 24px; }
+  label { display: block; font-size: 14px; font-weight: 600; margin: 0 0 6px; }
+  input {
+    width: 100%;
+    font: inherit;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0 0 16px;
+    background: #fff;
+    color: var(--text);
+  }
+  input:focus { outline: 2px solid #bfd3ff; border-color: var(--accent); }
+  button {
+    width: 100%;
+    font: inherit;
+    font-weight: 600;
+    padding: 10px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+  .msg { font-size: 14px; margin: 12px 0 0; min-height: 1.6em; text-align: center; }
+  .msg.err { color: var(--danger); }
+  .msg.ok { color: var(--ok); font-weight: 600; }
+  .links { display: flex; justify-content: space-between; font-size: 13px; margin-top: 16px; color: var(--muted); }
+  .demo { font-size: 12px; color: var(--muted); text-align: center; margin: 16px 0 0; }
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="./">
+        <img class="logo" src="oiia.gif" alt="" width="44" height="44">
+        <strong>Oiia 員工自助服務入口</strong>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="crumb"><a href="./">首頁</a> › 新版 IT 報修</div>
+
+    <section class="login">
+      <h1>新版 IT 報修系統</h1>
+      <p class="sub">請使用 AD 帳號登入（2026/11/16 上線）</p>
+
+      <!--
+        TODO(上線前移除)：UAT 測試帳號，給廠商驗收用
+        帳號：helpdesk.test
+        密碼：flag{2026_IT_Sharing#5}
+      -->
+      <form id="login-form" autocomplete="off" novalidate>
+        <label for="user">帳號</label>
+        <input id="user" name="user" type="text" placeholder="例如 john.chen" autocomplete="off">
+        <label for="pass">密碼</label>
+        <input id="pass" name="pass" type="password" autocomplete="off">
+        <button type="submit">登入</button>
+        <p class="msg" id="msg" role="status"></p>
+      </form>
+
+      <div class="links">
+        <span>忘記密碼請洽 IT 服務台（分機 1234）</span>
+      </div>
+      <p class="demo">此為虛構示範網站，請勿輸入真實帳號密碼，輸入內容不會傳送到任何地方。</p>
+    </section>
+  </main>
+
+  <footer>© 2026 Oiia Group（虛構示範網站，僅供內部 IT Sharing 使用）</footer>
+
+<script>
+  (function () {
+    var expected = '2a431646246a3df5ecc4110d94fd352a0d2cbddb95b291b1646540b5f6ecf724';
+    var form = document.getElementById('login-form');
+    var msg = document.getElementById('msg');
+
+    function sha256(text) {
+      var data = new TextEncoder().encode(text);
+      return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+        return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+          return ('0' + b.toString(16)).slice(-2);
+        }).join('');
+      });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var user = document.getElementById('user').value.trim();
+      var pass = document.getElementById('pass').value;
+      document.getElementById('pass').value = '';
+      if (!window.crypto || !crypto.subtle) {
+        msg.className = 'msg err';
+        msg.textContent = '帳號或密碼錯誤，請再試一次。';
+        return;
+      }
+      sha256(user + ':' + pass).then(function (hash) {
+        if (hash === expected) {
+          msg.className = 'msg ok';
+          msg.textContent = '登入成功：歡迎，helpdesk.test（UAT 測試帳號）';
+        } else {
+          msg.className = 'msg err';
+          msg.textContent = '帳號或密碼錯誤，請再試一次。';
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
