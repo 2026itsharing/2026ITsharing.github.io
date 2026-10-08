@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>密碼重設申請 - Oiia 員工自助服務入口</title>
+<link rel="icon" href="oiia.gif" type="image/gif">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2933;
+    --muted: #616e7c;
+    --line: #e1e5ea;
+    --accent: #2563eb;
+    --danger: #c0392b;
+    --ok: #1e7f4f;
+    --ok-bg: #e9f7ef;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.6;
+  }
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+  }
+  header .wrap { display: flex; align-items: center; gap: 10px; }
+  header a { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+  .logo { width: 44px; height: 44px; object-fit: contain; flex: none; }
+  header strong { font-size: 18px; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
+  .crumb { font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .crumb a { color: var(--accent); text-decoration: none; }
+  .box {
+    max-width: 440px;
+    margin: 24px auto 0;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 24px;
+  }
+  .box h1 { font-size: 22px; margin: 0 0 4px; text-align: center; }
+  .box .sub { color: var(--muted); font-size: 14px; text-align: center; margin: 0 0 24px; }
+  label { display: block; font-size: 14px; font-weight: 600; margin: 0 0 6px; }
+  input {
+    width: 100%;
+    font: inherit;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0 0 4px;
+    background: #fff;
+    color: var(--text);
+  }
+  input:focus { outline: 2px solid #bfd3ff; border-color: var(--accent); }
+  input.bad { border-color: var(--danger); }
+  .hint { font-size: 12px; color: var(--muted); margin: 0 0 14px; min-height: 1.2em; }
+  .hint.err { color: var(--danger); }
+  button {
+    width: 100%;
+    font: inherit;
+    font-weight: 600;
+    padding: 10px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .result { margin: 16px 0 0; font-size: 14px; text-align: center; }
+  .result.err { color: var(--danger); }
+  .success {
+    display: none;
+    margin: 16px 0 0;
+    background: var(--ok-bg);
+    border: 1px solid #b7e1c8;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+  .success b { color: var(--ok); }
+  .success code {
+    display: block;
+    margin-top: 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 16px;
+    font-weight: 700;
+    word-break: break-all;
+  }
+  .demo { font-size: 12px; color: var(--muted); text-align: center; margin: 16px 0 0; }
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="./">
+        <img class="logo" src="oiia.gif" alt="" width="44" height="44">
+        <strong>Oiia 員工自助服務入口</strong>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="crumb"><a href="./">首頁</a> › <a href="servicedesk.html">新版 IT 報修</a> › 密碼重設申請</div>
+
+    <section class="box">
+      <h1>密碼重設申請</h1>
+      <p class="sub">請填寫以下資料完成身分驗證，<br>驗證通過後系統將立即核發臨時密碼。</p>
+
+      <form id="reset-form" autocomplete="off" novalidate>
+        <label for="account">AD 帳號</label>
+        <input id="account" type="text" placeholder="例如 john.chen" autocomplete="off">
+        <p class="hint" id="h-account"></p>
+
+        <label for="empid">員工編號</label>
+        <input id="empid" type="text" placeholder="例如 OI-12345" autocomplete="off">
+        <p class="hint" id="h-empid"></p>
+
+        <label for="manager">直屬主管姓名</label>
+        <input id="manager" type="text" placeholder="英文名即可" autocomplete="off">
+        <p class="hint" id="h-manager"></p>
+
+        <label for="ext">公司分機</label>
+        <input id="ext" type="text" inputmode="numeric" placeholder="4 碼數字" autocomplete="off">
+        <p class="hint" id="h-ext"></p>
+
+        <button type="submit">送出驗證</button>
+        <p class="result" id="result" role="status"></p>
+      </form>
+
+      <div class="success" id="success" role="status">
+        <b>✔ 身分驗證成功</b><br>
+        已為 <span id="who"></span> 重設密碼，請於首次登入後立即變更。
+        <code id="temp"></code>
+      </div>
+
+      <p class="demo">此為虛構示範網站，請勿輸入真實資料，輸入內容不會傳送到任何地方。</p>
+    </section>
+  </main>
+
+  <footer>© 2026 Oiia Group（虛構示範網站，僅供內部 IT Sharing 使用）</footer>
+
+<script>
+  (function () {
+    var HASH = {
+      account: 'ad0d29f04f86bd174a0b2fefbd368b7e9fdab65be00ff08ad970cf6ba07dc492',
+      empid: '37c867b1d100c25d4a79dfce42307fbcb1d203809caddef63d74f6254936af7d',
+      manager: 'b72ec342006cfb104a5d0d4dd77ffb468462687691fb1a52d296d76e065469b8',
+      ext: 'f6d8f2da4c8857916817a5aa3b486a879ee7a460dc4f8cd4e3588713690afa27'
+    };
+    var IV = '7L6220siVqgvUGkD';
+    var CT = 'Bj0W5DshK8aAllAt4dJHVFiyYXsOf33H77tfTVzkEFyJFpdREIIV';
+    var MSG = {
+      account: '查無此帳號',
+      empid: '員工編號與紀錄不符',
+      manager: '直屬主管與紀錄不符',
+      ext: '分機與紀錄不符'
+    };
+    var FIELDS = ['account', 'empid', 'manager', 'ext'];
+
+    function norm(field, v) {
+      v = (v || '').trim();
+      if (field === 'account') return v.toLowerCase().replace(/@.*$/, '').replace(/\s+/g, '');
+      if (field === 'empid') return v.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (field === 'manager') return v.toLowerCase().replace(/\s+/g, '');
+      if (field === 'ext') return v.replace(/\D/g, '');
+      return v;
+    }
+
+    function b64(s) {
+      var bin = atob(s), out = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+      return out;
+    }
+
+    function sha256(text) {
+      return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    }
+
+    function hex(buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+        return ('0' + b.toString(16)).slice(-2);
+      }).join('');
+    }
+
+    var form = document.getElementById('reset-form');
+    var result = document.getElementById('result');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      result.textContent = '';
+      result.className = 'result';
+      if (!window.crypto || !crypto.subtle) {
+        result.className = 'result err';
+        result.textContent = '驗證服務暫時無法使用，請改用電腦瀏覽器。';
+        return;
+      }
+      var vals = {};
+      FIELDS.forEach(function (f) { vals[f] = norm(f, document.getElementById(f).value); });
+
+      Promise.all(FIELDS.map(function (f) {
+        return sha256('oiia-reset:' + f + ':' + vals[f]).then(hex);
+      })).then(function (hashes) {
+        var allOk = true;
+        FIELDS.forEach(function (f, i) {
+          var ok = vals[f] !== '' && hashes[i] === HASH[f];
+          var input = document.getElementById(f);
+          var hint = document.getElementById('h-' + f);
+          input.classList.toggle('bad', !ok);
+          hint.className = ok ? 'hint' : 'hint err';
+          hint.textContent = ok ? '' : (vals[f] === '' ? '此欄位必填' : MSG[f]);
+          if (!ok) allOk = false;
+        });
+        if (!allOk) {
+          result.className = 'result err';
+          result.textContent = '身分驗證失敗，請確認資料後重新送出。';
+          return;
+        }
+        var keyText = [vals.account, vals.empid, vals.manager, vals.ext].join('|');
+        return sha256(keyText).then(function (raw) {
+          return crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);
+        }).then(function (key) {
+          return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(IV) }, key, b64(CT));
+        }).then(function (plain) {
+          document.getElementById('who').textContent = vals.account;
+          document.getElementById('temp').textContent = '臨時密碼：' + new TextDecoder().decode(plain);
+          form.style.display = 'none';
+          document.getElementById('success').style.display = 'block';
+        });
+      }).catch(function () {
+        result.className = 'result err';
+        result.textContent = '身分驗證失敗，請確認資料後重新送出。';
+      });
+    });
+  })();
+</script>
+</body>
+</html>

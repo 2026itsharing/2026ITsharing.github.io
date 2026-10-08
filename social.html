@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kevin Wu（@kevin.wu）- Purrlink</title>
+<style>
+  :root {
+    --bg: #f0f2f5;
+    --card: #ffffff;
+    --text: #1c1e21;
+    --muted: #65676b;
+    --line: #e4e6eb;
+    --brand: #e8590c;
+    --brand-soft: #fff1e6;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.6;
+  }
+  .topbar {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  .topbar .in {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand { font-weight: 800; font-size: 20px; color: var(--brand); letter-spacing: -.5px; }
+  .brand span { font-size: 22px; }
+  .search {
+    margin-left: auto;
+    background: var(--bg);
+    border-radius: 999px;
+    padding: 4px 14px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 16px; }
+  .profile {
+    background: var(--card);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .cover { height: 120px; background: linear-gradient(120deg, #ffb37b, #ff8f6b 50%, #c78bff); }
+  .pinfo { padding: 0 16px 16px; }
+  .avatar {
+    width: 88px; height: 88px; border-radius: 50%;
+    border: 4px solid var(--card);
+    margin-top: -44px;
+    background: linear-gradient(#cfd8e3, #aab7c7);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px; font-weight: 700; color: #fff;
+  }
+  .pname { font-size: 22px; font-weight: 700; margin: 6px 0 0; }
+  .handle { color: var(--muted); font-size: 14px; }
+  .bio { margin: 8px 0 0; font-size: 15px; }
+  .stats { display: flex; gap: 16px; color: var(--muted); font-size: 14px; margin-top: 8px; }
+  .stats b { color: var(--text); }
+  .post {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-top: 16px;
+    padding: 14px 16px 6px;
+  }
+  .phead { display: flex; align-items: center; gap: 10px; }
+  .phead .av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(#cfd8e3, #aab7c7);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: #fff; flex: none;
+  }
+  .phead b { display: block; font-size: 15px; }
+  .phead time { color: var(--muted); font-size: 13px; }
+  .ptext { margin: 10px 0; font-size: 15px; white-space: pre-line; }
+  .tag { color: var(--brand); }
+  .pimg { width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 8px; }
+  .acts {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 14px;
+    padding: 6px 0 2px;
+  }
+  .reply {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 6px 12px;
+    margin: 4px 0 10px;
+    font-size: 14px;
+  }
+  .reply b { font-size: 13px; }
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="in">
+      <div class="brand"><span>🐾</span> Purrlink</div>
+      <div class="search">搜尋</div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="profile">
+      <div class="cover"></div>
+      <div class="pinfo">
+        <div class="avatar">K</div>
+        <p class="pname">Kevin Wu 吳凱文</p>
+        <div class="handle">@kevin.wu</div>
+        <p class="bio">💻 Oiia Group 資訊部 網路組｜🐱 貓奴｜🏃 週末爬山</p>
+        <div class="stats"><span><b>412</b> 位朋友</span><span><b>86</b> 則貼文</span></div>
+      </div>
+    </section>
+
+    <article class="post">
+      <div class="phead"><div class="av">K</div><div><b>Kevin Wu</b><time>2026年11月20日 · 公開</time></div></div>
+      <p class="ptext">同事說我的 Teams 狀態永遠是「忙碌」🙃
+其實是新系統上線後每天都在救火……
+有事直接 tag 我 @kevin.wu 比較快 <span class="tag">#IT人的日常</span></p>
+      <div class="acts"><span>👍 48</span><span>💬 6 則留言</span><span>↗ 分享</span></div>
+    </article>
+
+    <article class="post">
+      <div class="phead"><div class="av">K</div><div><b>Kevin Wu</b><time>2026年11月16日 · 公開</time></div></div>
+      <p class="ptext">新版 IT 報修系統今天正式上線了 🎉🎉
+這兩週天天加班到晚上 10 點，終於可以好好睡一覺
+<span class="tag">#上線順利</span> <span class="tag">#拜託不要有bug</span></p>
+      <div class="acts"><span>👍 132</span><span>💬 21 則留言</span><span>↗ 分享</span></div>
+    </article>
+
+    <article class="post">
+      <div class="phead"><div class="av">K</div><div><b>Kevin Wu</b><time>2026年11月12日 · 公開</time></div></div>
+      <p class="ptext">拜託大家有事打我分機 2716 😂
+不要一直敲 Teams，我真的回不完 🙏</p>
+      <div class="reply"><b>Amy Lin</b>　哈哈哈收到！明天就打爆你分機 📞</div>
+      <div class="acts"><span>👍 67</span><span>💬 9 則留言</span><span>↗ 分享</span></div>
+    </article>
+
+    <article class="post">
+      <div class="phead"><div class="av">K</div><div><b>Kevin Wu</b><time>2026年11月9日 · 公開</time></div></div>
+      <p class="ptext">感謝主管 David 請全組喝手搖 🧋
+新報修系統上線前最後衝刺！資訊部衝啊 💪</p>
+      <div class="acts"><span>👍 89</span><span>💬 12 則留言</span><span>↗ 分享</span></div>
+    </article>
+
+    <article class="post">
+      <div class="phead"><div class="av">K</div><div><b>Kevin Wu</b><time>2026年11月7日 · 公開</time></div></div>
+      <p class="ptext">週末去爬象山，累爆 🥵 下週要繼續練腳力 <span class="tag">#週末爬山</span></p>
+      <div class="acts"><span>👍 35</span><span>💬 3 則留言</span><span>↗ 分享</span></div>
+    </article>
+
+    <article class="post">
+      <div class="phead"><div class="av">K</div><div><b>Kevin Wu</b><time>2026年11月3日 · 公開</time></div></div>
+      <p class="ptext">在 Oiia 資訊部滿三年了 🎉
+謝謝一路上照顧我的同事們，繼續加油！<span class="tag">#到職三週年</span></p>
+      <a href="photos/kevin-badge.jpg"><img class="pimg" src="photos/kevin-badge.jpg" alt="桌上的 Oiia Group 員工識別證" width="640" height="480" loading="lazy"></a>
+      <div class="acts"><span>👍 203</span><span>💬 34 則留言</span><span>↗ 分享</span></div>
+    </article>
+  </main>
+
+  <footer>Purrlink 為虛構社群平台，本頁人物與內容皆為虛構，僅供內部 IT Sharing 使用。</footer>
+</body>
+</html>
