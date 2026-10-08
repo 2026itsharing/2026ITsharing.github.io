@@ -126,6 +126,9 @@
     font-size: 14px;
   }
   .board li:first-child { border-top: 0; }
+  .board li { gap: 12px; align-items: center; }
+  .board .tip { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .board .st { flex: none; }
   .board li.done { background: #e9f7ef; }
   .board .st { color: var(--muted); }
   .board li.done .st { color: #1e7f4f; font-weight: 600; }
@@ -217,11 +220,11 @@
 <script>
   (function () {
     var LEVELS = [
-      { no: 1, name: '旋轉的秘密', pts: 15, h: 'ada988e7a3495c24f5f9bb43bd044b0d9eb73b84b4f6138784f45ff7be5d640f' },
-      { no: 2, name: '熱心的同事', pts: 20, h: 'ed0e05adca6b88e708803956f19c3262be213c67620e3ec14edb40f83b9a480f' },
-      { no: 3, name: '迷路的網址', pts: 20, h: '9a934cc68f3b93a4ac306ac4e9425d6ebd96501a7c24c9c0b14f725602848152' },
-      { no: 4, name: '安心的密碼', pts: 20, h: '5ad8802bfbb31fd93ca93d1eabce9919216390aaa0e13046dd2334aeb1bb0251' },
-      { no: 5, name: '看不見的備忘', pts: 25, h: '861134e27a5f28ec5de0bc53857a04baa530f7414d3404ca1a3a17c15373fa84' }
+      { no: 1, name: '旋轉的秘密', tip: '那隻一直轉的貓，好像知道些什麼。', pts: 15, h: 'ada988e7a3495c24f5f9bb43bd044b0d9eb73b84b4f6138784f45ff7be5d640f' },
+      { no: 2, name: '熱心的同事', tip: '有位同事什麼都愛 PO，連不該 PO 的也 PO 了。', pts: 20, h: 'ed0e05adca6b88e708803956f19c3262be213c67620e3ec14edb40f83b9a480f' },
+      { no: 3, name: '迷路的網址', tip: '走錯路的時候，網站好像說了太多話。', pts: 20, h: '9a934cc68f3b93a4ac306ac4e9425d6ebd96501a7c24c9c0b14f725602848152' },
+      { no: 4, name: '安心的密碼', tip: '說是加密了，真的嗎？', pts: 20, h: '5ad8802bfbb31fd93ca93d1eabce9919216390aaa0e13046dd2334aeb1bb0251' },
+      { no: 5, name: '看不見的備忘', tip: '畫面上看到的，不一定是全部。', pts: 25, h: '861134e27a5f28ec5de0bc53857a04baa530f7414d3404ca1a3a17c15373fa84' }
     ];
     var KEY = 'oiia-score-v1';
     var state = { nick: '', solved: [] };
@@ -258,6 +261,10 @@
         if (done) li.className = 'done';
         var left = document.createElement('span');
         left.textContent = '#' + lv.no + ' ' + lv.name + '（' + lv.pts + ' 分）';
+        var tip = document.createElement('small');
+        tip.className = 'tip';
+        tip.textContent = '💡 ' + lv.tip;
+        left.appendChild(tip);
         var right = document.createElement('span');
         right.className = 'st';
         right.textContent = done ? '✔ 已解' : '未解';
