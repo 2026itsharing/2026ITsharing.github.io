@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>VPN 用戶端安裝說明 - Oiia 員工自助服務入口</title>
+<link rel="icon" href="oiia.gif" type="image/gif">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2933;
+    --muted: #616e7c;
+    --line: #e1e5ea;
+    --accent: #2563eb;
+    --code-bg: #f6f8fa;
+    --code-cmt: #6a737d;
+    --code-key: #005cc5;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.7;
+  }
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+  }
+  header .wrap { display: flex; align-items: center; gap: 10px; }
+  header a { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+  .logo { width: 44px; height: 44px; object-fit: contain; flex: none; }
+  header strong { font-size: 18px; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
+  .crumb { font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .crumb a { color: var(--accent); text-decoration: none; }
+  h1 { font-size: 24px; margin: 8px 0 4px; }
+  .meta { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+  .doc {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 24px 24px;
+  }
+  .doc h2 { font-size: 18px; margin: 24px 0 8px; }
+  .doc p, .doc li { font-size: 15px; }
+  .doc ol { padding-left: 20px; margin: 0; }
+  .note {
+    border-left: 4px solid var(--accent);
+    background: #eef3ff;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    margin: 16px 0 0;
+  }
+  .code {
+    position: relative;
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 8px 0;
+  }
+  .code pre {
+    margin: 0;
+    padding: 14px 16px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .code .c { color: var(--code-cmt); }
+  .code .k { color: var(--code-key); }
+  .copy {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font: inherit;
+    font-size: 12px;
+    padding: 2px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+  }
+  kbd {
+    font-family: inherit;
+    font-size: 13px;
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 0 6px;
+    background: var(--card);
+  }
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
+  @media (max-width: 600px) {
+    .doc { padding: 4px 16px 20px; }
+    .code pre { padding-top: 40px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="./">
+        <img class="logo" src="oiia.gif" alt="" width="44" height="44">
+        <strong>Oiia 員工自助服務入口</strong>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="crumb"><a href="./">首頁</a> › 公告 › VPN 用戶端安裝說明</div>
+    <h1>VPN 用戶端安裝說明</h1>
+    <p class="meta">發布單位：資訊部 網路組　｜　最後更新：2026/11/02</p>
+
+    <article class="doc">
+      <h2>適用對象</h2>
+      <p>需要從公司外部（在家、出差）存取內部系統的同仁。請於 <strong>2026/11/30 前</strong>完成新版用戶端安裝，舊版用戶端將於 12 月停止連線。</p>
+
+      <h2>步驟 1：下載用戶端</h2>
+      <p>請至「軟體中心」搜尋 <strong>Oiia VPN Client 5.2</strong> 並點選安裝。若找不到，請洽 IT 服務台（分機 1234）。</p>
+
+      <h2>步驟 2：安裝並重新開機</h2>
+      <p>依照安裝精靈點選「下一步」即可，安裝完成後請重新開機一次。</p>
+
+      <h2>步驟 3：匯入連線設定</h2>
+      <p>開啟 VPN 用戶端，點選 <kbd>設定</kbd> → <kbd>匯入</kbd>，貼上以下內容：</p>
+      <div class="code">
+        <button class="copy" type="button" id="copy-btn">複製</button>
+<pre id="vpn-conf"><span class="c"># Oiia VPN 用戶端設定（2026/11 版）</span>
+<span class="c"># 共用帳號，請勿外流</span>
+<span class="k">server</span>   = vpn.oiia.example
+<span class="k">port</span>     = 443
+<span class="k">protocol</span> = ssl
+<span class="k">username</span> = vpn.user
+<span class="k">password</span> = ZmxhZ3syMDI2X0lUX1NoYXJpbmcjNH0=   <span class="c">; 已加密，請安心使用</span></pre>
+      </div>
+      <p class="note">🔒 為保障資訊安全，設定檔中的密碼已經過<strong>加密處理</strong>，請直接匯入即可，無須另外輸入密碼。</p>
+
+      <h2>步驟 4：連線測試</h2>
+      <ol>
+        <li>點選 <kbd>連線</kbd>，狀態顯示「已連線」即完成。</li>
+        <li>開啟瀏覽器確認可以進入內部系統。</li>
+        <li>若出現「驗證失敗」，請截圖並至新版 IT 報修提出申請。</li>
+      </ol>
+    </article>
+  </main>
+
+  <footer>© 2026 Oiia Group（虛構示範網站，僅供內部 IT Sharing 使用）</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById('copy-btn');
+    btn.addEventListener('click', function () {
+      var text = document.getElementById('vpn-conf').textContent;
+      var done = function () {
+        btn.textContent = '已複製';
+        setTimeout(function () { btn.textContent = '複製'; }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () {});
+      }
+    });
+  })();
+</script>
+</body>
+</html>
