@@ -105,6 +105,44 @@
     font-size: 14px;
   }
   .reply b { font-size: 13px; }
+  .acts button {
+    flex: 1;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    padding: 4px 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .acts button:hover { background: var(--bg); }
+  .acts button.on { color: var(--brand); font-weight: 700; }
+  .acts.live span { flex: 1; text-align: center; padding: 4px 0; }
+  .cmts { border-top: 1px solid var(--line); padding-top: 8px; }
+  .cmts[hidden] { display: none; }
+  .cmts .reply.mine { background: var(--brand-soft); }
+  .cform { display: flex; gap: 8px; margin: 4px 0 10px; }
+  .cform input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font: inherit;
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .cform button {
+    border: 0;
+    border-radius: 999px;
+    padding: 6px 14px;
+    background: var(--brand);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
   footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
 </style>
 </head>
@@ -162,5 +200,108 @@
   </main>
 
   <footer>Purrlink 為虛構社群平台，本頁人物與內容皆為虛構，僅供內部 IT Sharing 使用。</footer>
+  <script>
+  (function () {
+    var KEY = 'purrlink-social';
+    var state = {};
+    try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+    function save() {
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    var seed = {
+      'p-helpdesk': [['Kelly Wu', '新系統介面好清爽 👍']],
+      'p-anniv': [['Amy Lin', '三週年快樂 🎉'], ['Jason Ho', '恭喜！再來三年 💪']],
+      'p-boba': [['Amy Lin', '謝謝 David 🧋']],
+      'p-ext': []
+    };
+
+    function addReply(list, name, text, mine) {
+      var div = document.createElement('div');
+      div.className = mine ? 'reply mine' : 'reply';
+      var b = document.createElement('b');
+      b.textContent = name;
+      div.appendChild(b);
+      div.appendChild(document.createTextNode('　' + text));
+      list.appendChild(div);
+    }
+
+    var ids = ['p-helpdesk', 'p-anniv', 'p-boba', 'p-ext'];
+
+    function toButton(span, cls) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = cls;
+      span.replaceWith(btn);
+      return btn;
+    }
+
+    document.querySelectorAll('.post').forEach(function (post, i) {
+      var id = ids[i];
+      if (!id) return;
+      var s = state[id] || (state[id] = { liked: false, comments: [] });
+      var acts = post.querySelector('.acts');
+      var spans = acts.querySelectorAll('span');
+      var likeBase = parseInt(spans[0].textContent.replace(/\D/g, ''), 10);
+      var cBase = parseInt(spans[1].textContent.replace(/\D/g, ''), 10);
+      acts.classList.add('live');
+      var like = toButton(spans[0], 'like');
+      var ctog = toButton(spans[1], 'ctog');
+      ctog.setAttribute('aria-expanded', 'false');
+
+      var panel = document.createElement('div');
+      panel.className = 'cmts';
+      panel.hidden = true;
+      var list = document.createElement('div');
+      var form = document.createElement('form');
+      form.className = 'cform';
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.maxLength = 200;
+      input.placeholder = '留言⋯';
+      input.setAttribute('aria-label', '輸入留言');
+      var send = document.createElement('button');
+      send.type = 'submit';
+      send.textContent = '送出';
+      form.appendChild(input);
+      form.appendChild(send);
+      panel.appendChild(list);
+      panel.appendChild(form);
+      post.appendChild(panel);
+
+      (seed[id] || []).forEach(function (c) { addReply(list, c[0], c[1], false); });
+      s.comments.forEach(function (t) { addReply(list, '你', t, true); });
+
+      function render() {
+        like.textContent = '👍 ' + (likeBase + (s.liked ? 1 : 0));
+        like.classList.toggle('on', s.liked);
+        like.setAttribute('aria-pressed', String(s.liked));
+        ctog.textContent = '💬 ' + (cBase + s.comments.length) + ' 則留言';
+      }
+      render();
+
+      like.addEventListener('click', function () {
+        s.liked = !s.liked;
+        save();
+        render();
+      });
+      ctog.addEventListener('click', function () {
+        panel.hidden = !panel.hidden;
+        ctog.setAttribute('aria-expanded', String(!panel.hidden));
+        if (!panel.hidden) input.focus();
+      });
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var t = input.value.trim();
+        if (!t) return;
+        s.comments.push(t);
+        save();
+        addReply(list, '你', t, true);
+        input.value = '';
+        render();
+      });
+    });
+  })();
+  </script>
 </body>
 </html>
