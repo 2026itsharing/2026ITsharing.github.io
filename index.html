@@ -49,6 +49,27 @@
     background: #e8efff; color: var(--accent); margin-bottom: 8px;
   }
   .tag.off { background: #f1f2f4; color: var(--muted); }
+  .event { margin-top: 32px; }
+  .event h2 { font-size: 18px; margin: 0 0 12px; }
+  .photo-card {
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 320px) 1fr;
+    gap: 20px;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .photo-card img { width: 100%; height: auto; border-radius: 8px; display: block; }
+  .photo-card strong { display: block; font-size: 16px; margin-bottom: 4px; }
+  .photo-card span { display: block; color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+  .photo-card a { color: var(--accent); font-size: 14px; text-decoration: none; }
+  .photo-card a:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .photo-card { grid-template-columns: 1fr; }
+  }
   .news { margin-top: 32px; }
   .news h2 { font-size: 18px; margin: 0 0 12px; }
   .news ul { list-style: none; padding: 0; margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
@@ -94,6 +115,18 @@
         <p>原 /helpdesk 已停止服務，請改用新版 IT 報修。</p>
       </div>
     </div>
+
+    <section class="event">
+      <h2>活動花絮</h2>
+      <figure class="photo-card">
+        <img src="photos/IMG_4821.jpg" alt="十一月員工慶生會，吉祥物 Oiia 貓到場" width="640" height="480" loading="lazy">
+        <figcaption>
+          <strong>十一月員工慶生會</strong>
+          <span>2026/11/20　感謝吉祥物 Oiia 貓到場同樂！照片由人資部提供。</span>
+          <a href="photos/IMG_4821.jpg" download>下載原圖</a>
+        </figcaption>
+      </figure>
+    </section>
 
     <section class="news">
       <h2>最新公告</h2>
