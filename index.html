@@ -75,6 +75,63 @@
     border-radius: 4px;
     word-break: break-all;
   }
+  .score { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 16px; }
+  .score [hidden] { display: none !important; }
+  .row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .row input {
+    flex: 1;
+    min-width: 0;
+    font: inherit;
+    font-size: 14px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--text);
+  }
+  .row input:focus { outline: 2px solid #bfd3ff; border-color: var(--accent); }
+  .row button, .reset {
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    flex: none;
+  }
+  .player { font-size: 14px; color: var(--muted); margin: 0 0 10px; }
+  .player b { color: var(--text); }
+  .player button {
+    font: inherit;
+    font-size: 13px;
+    background: none;
+    border: 0;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 0 4px;
+  }
+  .msg { font-size: 14px; min-height: 1.6em; margin: 0 0 8px; }
+  .msg.ok { color: #1e7f4f; font-weight: 600; }
+  .msg.err { color: #c0392b; }
+  .board { list-style: none; padding: 0; margin: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .board li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .board li:first-child { border-top: 0; }
+  .board li.done { background: #e9f7ef; }
+  .board .st { color: var(--muted); }
+  .board li.done .st { color: #1e7f4f; font-weight: 600; }
+  .total { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .total strong { font-size: 20px; }
+  .reset { background: #f1f2f4; color: var(--muted); font-weight: 400; }
+  .cheer { margin: 10px 0 0; font-weight: 700; color: #1e7f4f; }
   footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
   footer .follow { margin: 0 0 6px; }
   footer a { color: var(--accent); text-decoration: none; }
@@ -126,6 +183,28 @@
     <section class="mission">
       <h2>🚩 闖關任務</h2>
       <p>本站共藏有 <b>5</b> 個 flag，格式統一為 <code>flag{2026_IT_Sharing#編號}</code>，編號為 1～5。</p>
+
+      <div class="score" id="score">
+        <form class="row" id="name-form" autocomplete="off">
+          <input id="nick" type="text" maxlength="20" placeholder="輸入暱稱開始闖關" aria-label="暱稱">
+          <button type="submit">開始</button>
+        </form>
+
+        <div id="play" hidden>
+          <p class="player">玩家：<b id="who"></b><button type="button" id="rename">更改</button></p>
+          <form class="row" id="flag-form" autocomplete="off">
+            <input id="flag" type="text" placeholder="flag{2026_IT_Sharing#…}" aria-label="輸入 flag" autocapitalize="off" spellcheck="false">
+            <button type="submit">提交</button>
+          </form>
+          <p class="msg" id="msg" role="status"></p>
+          <ul class="board" id="board"></ul>
+          <div class="total">
+            <span>總分 <strong id="total">0</strong> / 100</span>
+            <button type="button" class="reset" id="reset">重新開始</button>
+          </div>
+          <p class="cheer" id="cheer" hidden></p>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -133,5 +212,134 @@
     <p class="follow">追蹤我們的員工生活分享：<a href="social.html">🐾 Purrlink</a></p>
     © 2026 Oiia Group（虛構示範網站，僅供內部 IT Sharing 使用）
   </footer>
+<script>
+  (function () {
+    var LEVELS = [
+      { no: 1, name: '圖片藏 Flag', pts: 15, h: '65194399fb2d6c5dc416f3801102046b9de9677cc7b603c4902521e841133544' },
+      { no: 2, name: '社群貼文藏 Flag', pts: 20, h: '2db1adca625daa8f0f7b547a4544cb57da2ede357f5f696faffc6f102ca59873' },
+      { no: 3, name: '404 藏 Flag', pts: 20, h: '18da6ad2d658dbf5cb78af1e95a2953b873446efc87e30cf92793066545a1c88' },
+      { no: 4, name: 'Base64 解碼', pts: 20, h: '5ef8b842a22f86fc357ec1627fcb3c841e76352694af65e61e1821774783ea24' },
+      { no: 5, name: 'HTML 註解', pts: 25, h: 'fc99fd8718da32f20137adae3d65237de5a3658a857950c0be61071b49b5cb84' }
+    ];
+    var KEY = 'oiia-score-v1';
+    var state = { nick: '', solved: [] };
+
+    function load() {
+      try {
+        var raw = localStorage.getItem(KEY);
+        if (raw) {
+          var d = JSON.parse(raw);
+          state.nick = typeof d.nick === 'string' ? d.nick : '';
+          state.solved = Array.isArray(d.solved) ? d.solved.filter(function (n) { return n >= 1 && n <= 5; }) : [];
+        }
+      } catch (e) {}
+    }
+
+    function save() {
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    function $(id) { return document.getElementById(id); }
+
+    function render() {
+      var hasNick = state.nick !== '';
+      $('name-form').hidden = hasNick;
+      $('play').hidden = !hasNick;
+      $('who').textContent = state.nick;
+      var board = $('board');
+      board.textContent = '';
+      var total = 0;
+      LEVELS.forEach(function (lv) {
+        var done = state.solved.indexOf(lv.no) !== -1;
+        if (done) total += lv.pts;
+        var li = document.createElement('li');
+        if (done) li.className = 'done';
+        var left = document.createElement('span');
+        left.textContent = '#' + lv.no + ' ' + lv.name + '（' + lv.pts + ' 分）';
+        var right = document.createElement('span');
+        right.className = 'st';
+        right.textContent = done ? '✔ 已解' : '未解';
+        li.appendChild(left);
+        li.appendChild(right);
+        board.appendChild(li);
+      });
+      $('total').textContent = total;
+      var cheer = $('cheer');
+      cheer.hidden = total !== 100;
+      cheer.textContent = total === 100 ? '🎉 恭喜 ' + state.nick + ' 完成全部 5 關，拿下滿分！' : '';
+    }
+
+    function show(text, cls) {
+      var m = $('msg');
+      m.className = 'msg ' + (cls || '');
+      m.textContent = text;
+    }
+
+    function sha256hex(text) {
+      return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function (buf) {
+        return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+          return ('0' + b.toString(16)).slice(-2);
+        }).join('');
+      });
+    }
+
+    $('name-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = $('nick').value.trim().slice(0, 20);
+      if (!v) { $('nick').focus(); return; }
+      state.nick = v;
+      save();
+      show('', '');
+      render();
+    });
+
+    $('rename').addEventListener('click', function () {
+      $('nick').value = state.nick;
+      state.nick = '';
+      render();
+      $('nick').focus();
+    });
+
+    $('flag-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var raw = $('flag').value;
+      var v = (raw.normalize ? raw.normalize('NFKC') : raw).trim().toLowerCase();
+      if (!v) return;
+      if (!window.crypto || !crypto.subtle) {
+        show('此瀏覽器無法驗證 flag，請改用其他瀏覽器。', 'err');
+        return;
+      }
+      sha256hex('oiia-score:' + v).then(function (h) {
+        var hit = null;
+        LEVELS.forEach(function (lv) { if (lv.h === h) hit = lv; });
+        if (!hit) {
+          show('flag 不正確，再找找看！', 'err');
+          return;
+        }
+        $('flag').value = '';
+        if (state.solved.indexOf(hit.no) !== -1) {
+          show('#' + hit.no + ' 已經解過了。', 'err');
+          return;
+        }
+        state.solved.push(hit.no);
+        save();
+        show('#' + hit.no + ' 答對！+' + hit.pts + ' 分', 'ok');
+        render();
+      });
+    });
+
+    $('reset').addEventListener('click', function () {
+      if (!confirm('確定要清除暱稱和所有分數，重新開始嗎？')) return;
+      state = { nick: '', solved: [] };
+      save();
+      $('nick').value = '';
+      show('', '');
+      render();
+    });
+
+    load();
+    render();
+  })();
+</script>
 </body>
 </html>
