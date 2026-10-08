@@ -127,11 +127,11 @@
       <div class="msg">No route found for "GET <span id="req-path">/</span>"</div>
 
       <h2>Stack trace</h2>
-<pre><span class="frame-no">#0</span> <span class="path">/var/www/orbit-portal/vendor/portal/routing/src/Router.php</span>(<span class="ln">214</span>): <span class="fn">Router-&gt;match()</span>
-<span class="frame-no">#1</span> <span class="path">/var/www/orbit-portal/vendor/portal/http/src/Kernel.php</span>(<span class="ln">87</span>): <span class="fn">Router-&gt;dispatch(Request)</span>
-<span class="frame-no">#2</span> <span class="path">/var/www/orbit-portal/app/Middleware/SsoAuth.php</span>(<span class="ln">41</span>): <span class="fn">Kernel-&gt;handle(Request)</span>
-<span class="frame-no">#3</span> <span class="path">/var/www/orbit-portal/app/Middleware/LegacyHelpdeskBridge.php</span>(<span class="ln">19</span>): <span class="fn">SsoAuth-&gt;__invoke(Request, Closure)</span>
-<span class="frame-no">#4</span> <span class="path">/var/www/orbit-portal/public/index.php</span>(<span class="ln">12</span>): <span class="fn">Kernel-&gt;run()</span>
+<pre><span class="frame-no">#0</span> <span class="path">/var/www/oiia-portal/vendor/portal/routing/src/Router.php</span>(<span class="ln">214</span>): <span class="fn">Router-&gt;match()</span>
+<span class="frame-no">#1</span> <span class="path">/var/www/oiia-portal/vendor/portal/http/src/Kernel.php</span>(<span class="ln">87</span>): <span class="fn">Router-&gt;dispatch(Request)</span>
+<span class="frame-no">#2</span> <span class="path">/var/www/oiia-portal/app/Middleware/SsoAuth.php</span>(<span class="ln">41</span>): <span class="fn">Kernel-&gt;handle(Request)</span>
+<span class="frame-no">#3</span> <span class="path">/var/www/oiia-portal/app/Middleware/LegacyHelpdeskBridge.php</span>(<span class="ln">19</span>): <span class="fn">SsoAuth-&gt;__invoke(Request, Closure)</span>
+<span class="frame-no">#4</span> <span class="path">/var/www/oiia-portal/public/index.php</span>(<span class="ln">12</span>): <span class="fn">Kernel-&gt;run()</span>
 <span class="frame-no">#5</span> {main}</pre>
 
       <h2>Request</h2>
@@ -147,9 +147,9 @@
       <table class="kv">
         <tr><td class="k">SERVER_SOFTWARE</td><td class="v">Apache/2.4.29 (Ubuntu)</td></tr>
         <tr><td class="k">PHP_VERSION</td><td class="v">7.2.24-0ubuntu0.18.04.17</td></tr>
-        <tr><td class="k">SERVER_NAME</td><td class="v">tpe-portal-web01.corp.orbit.internal</td></tr>
+        <tr><td class="k">SERVER_NAME</td><td class="v">tpe-portal-web01.corp.oiia.internal</td></tr>
         <tr><td class="k">SERVER_ADDR</td><td class="v">10.20.30.15</td></tr>
-        <tr><td class="k">DOCUMENT_ROOT</td><td class="v">/var/www/orbit-portal/public</td></tr>
+        <tr><td class="k">DOCUMENT_ROOT</td><td class="v">/var/www/oiia-portal/public</td></tr>
         <tr><td class="k">GIT_COMMIT</td><td class="v">a3f9c2e (release/2024-11-hotfix)</td></tr>
       </table>
 
@@ -158,12 +158,12 @@
         <tr><td class="k">APP_ENV</td><td class="v">production</td></tr>
         <tr><td class="k">APP_DEBUG</td><td class="v">true</td></tr>
         <tr><td class="k">DB_HOST</td><td class="v">10.20.40.8</td></tr>
-        <tr><td class="k">DB_DATABASE</td><td class="v">orbit_portal</td></tr>
+        <tr><td class="k">DB_DATABASE</td><td class="v">oiia_portal</td></tr>
         <tr><td class="k">DB_USERNAME</td><td class="v">portal_app</td></tr>
         <tr><td class="k">DB_PASSWORD</td><td class="v">P@ssw0rd2024!</td></tr>
-        <tr><td class="k">LDAP_SERVER</td><td class="v">ldap://dc01.corp.orbit.internal:389</td></tr>
+        <tr><td class="k">LDAP_SERVER</td><td class="v">ldap://dc01.corp.oiia.internal:389</td></tr>
         <tr><td class="k">SMTP_RELAY</td><td class="v">10.20.10.25:25</td></tr>
-        <tr><td class="k">ADMIN_CONTACT</td><td class="v">it-portal-admin@orbit.example</td></tr>
+        <tr><td class="k">ADMIN_CONTACT</td><td class="v">it-portal-admin@oiia.example</td></tr>
         <tr class="hot"><td class="k">FLAG</td><td class="v">flag{2026_IT_Sharing#3}</td></tr>
       </table>
     </div>
