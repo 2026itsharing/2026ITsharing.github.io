@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>中間人釣魚（AiTM）教學示意 - Oiia 員工自助服務入口</title>
+<link rel="icon" href="oiia.gif" type="image/gif">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2933;
+    --muted: #616e7c;
+    --line: #e1e5ea;
+    --accent: #2563eb;
+    --danger: #c0392b;
+    --danger-bg: #fdecea;
+    --ok: #1e7f4f;
+    --warn: #b7791f;
+    --warn-bg: #fff8e6;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.7;
+  }
+  header { background: var(--card); border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; align-items: center; gap: 10px; }
+  header a { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+  .logo { width: 44px; height: 44px; object-fit: contain; flex: none; }
+  header strong { font-size: 18px; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
+  .crumb { font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .crumb a { color: var(--accent); text-decoration: none; }
+  h1 { font-size: 24px; margin: 8px 0 4px; }
+  .lead { color: var(--muted); font-size: 15px; margin: 0 0 20px; }
+
+  .banner {
+    background: var(--warn-bg);
+    border: 1px solid #f0d58a;
+    border-left: 4px solid var(--warn);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--warn);
+    margin-bottom: 20px;
+  }
+
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .controls button {
+    font: inherit; font-weight: 600; font-size: 14px;
+    padding: 9px 18px; border: 0; border-radius: 8px; cursor: pointer;
+  }
+  .play { background: var(--accent); color: #fff; }
+  .again { background: #f1f2f4; color: var(--muted); }
+
+  .stage {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    align-items: stretch;
+  }
+  @media (max-width: 720px) { .stage { grid-template-columns: 1fr; } }
+
+  .node {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px;
+    opacity: .45;
+    transition: opacity .3s, border-color .3s, box-shadow .3s;
+  }
+  .node.active { opacity: 1; border-color: var(--accent); box-shadow: 0 0 0 3px #e8efff; }
+  .node.attacker.active { border-color: var(--danger); box-shadow: 0 0 0 3px var(--danger-bg); }
+  .node h2 { font-size: 15px; margin: 0 0 4px; display: flex; align-items: center; gap: 6px; }
+  .node .who { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .node.attacker h2 { color: var(--danger); }
+
+  .urlbar {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+    padding: 5px 8px; font-size: 12px; font-family: ui-monospace, Menlo, Consolas, monospace;
+    word-break: break-all;
+  }
+  .urlbar.bad { background: var(--danger-bg); border-color: #e9a59c; }
+  .urlbar.bad .host { color: var(--danger); font-weight: 700; }
+  .urlbar.good .host { color: var(--ok); font-weight: 700; }
+  .lock { flex: none; }
+
+  .form { margin-top: 10px; }
+  .field { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .field .val {
+    display: block; margin-top: 2px;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+    padding: 6px 8px; min-height: 30px;
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; color: var(--text);
+    word-break: break-all;
+  }
+  .caret::after { content: '▋'; color: var(--accent); animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .loot { margin-top: 6px; }
+  .loot .item {
+    opacity: 0; transform: translateY(4px);
+    transition: opacity .35s, transform .35s;
+    background: var(--danger-bg); border: 1px solid #e9a59c; border-radius: 6px;
+    padding: 6px 8px; margin-top: 6px; font-size: 12px;
+    font-family: ui-monospace, Menlo, Consolas, monospace; color: var(--danger); word-break: break-all;
+  }
+  .loot .item.show { opacity: 1; transform: none; }
+
+  .flow { text-align: center; font-size: 13px; color: var(--muted); margin: 14px 0 6px; min-height: 1.6em; font-weight: 600; }
+
+  .steps { margin-top: 24px; }
+  .steps h2 { font-size: 18px; margin: 0 0 10px; }
+  .steps ol { margin: 0; padding-left: 20px; }
+  .steps li { font-size: 15px; margin-bottom: 6px; opacity: .5; transition: opacity .3s; }
+  .steps li.on { opacity: 1; font-weight: 600; }
+
+  .takeaway {
+    margin-top: 24px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px;
+  }
+  .takeaway h2 { font-size: 18px; margin: 0 0 8px; }
+  .takeaway h3 { font-size: 15px; margin: 14px 0 4px; }
+  .takeaway ul { margin: 0; padding-left: 20px; font-size: 15px; }
+  .takeaway .key { color: var(--ok); font-weight: 600; }
+
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 16px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="./">
+        <img class="logo" src="oiia.gif" alt="" width="44" height="44">
+        <strong>Oiia 員工自助服務入口</strong>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="crumb"><a href="./">首頁</a> › 資安教學 › 中間人釣魚（AiTM）</div>
+    <h1>中間人釣魚攻擊（AiTM）是怎麼運作的？</h1>
+    <p class="lead">AiTM（Adversary-in-the-Middle）會在你和真網站之間架一個「代理」，一邊幫你轉送到真的登入頁，一邊側錄你的帳密與登入後的 session，連 MFA 都可能被繞過。</p>
+
+    <div class="banner">🧪 這是純教學示意動畫。畫面上的帳密、cookie 全是假的，頁面<strong>沒有任何輸入欄位，不會接收、傳送或儲存任何資料</strong>。按「播放示範」看一次完整流程。</div>
+
+    <div class="controls">
+      <button type="button" class="play" id="play">▶ 播放示範</button>
+      <button type="button" class="again" id="reset">↺ 重播</button>
+    </div>
+
+    <div class="stage">
+      <div class="node user" id="n-user">
+        <h2>👤 員工</h2>
+        <div class="who">收到一封「請重新登入」的信，點了連結</div>
+        <div class="urlbar bad"><span class="lock">🔓</span><span class="host" id="user-host">oiia-sso.com</span><span>/login</span></div>
+        <div class="form">
+          <div class="field">帳號<span class="val" id="f-user">　</span></div>
+          <div class="field">密碼<span class="val" id="f-pass">　</span></div>
+        </div>
+      </div>
+
+      <div class="node attacker" id="n-attacker">
+        <h2>🕵️ 攻擊者的代理</h2>
+        <div class="who">看起來一模一樣，其實是中間人</div>
+        <div class="urlbar bad"><span class="lock">🔓</span><span>偽造的 oiia-sso.com</span></div>
+        <div class="loot" id="loot">
+          <div class="item" id="loot-cred">側錄帳密：ericdy / ********</div>
+          <div class="item" id="loot-mfa">側錄 MFA 驗證碼：● ● ● ● ● ●</div>
+          <div class="item" id="loot-cookie">竊取 session cookie：ESTSAUTH=eyJ…（已登入狀態）</div>
+        </div>
+      </div>
+
+      <div class="node real" id="n-real">
+        <h2>🏢 真正的 SSO</h2>
+        <div class="who">login.oiia.com（真網站毫無異狀）</div>
+        <div class="urlbar good"><span class="lock">🔒</span><span class="host">login.oiia.com</span></div>
+        <div class="field" style="margin-top:12px">狀態<span class="val" id="real-state">等待登入…</span></div>
+      </div>
+    </div>
+
+    <p class="flow" id="flow">按「播放示範」開始</p>
+
+    <section class="steps">
+      <h2>流程拆解</h2>
+      <ol>
+        <li id="s1">員工點了釣魚信裡的連結，網址其實是 <code>oiia-sso.com</code>（仿冒），不是真的 <code>login.oiia.com</code>。</li>
+        <li id="s2">員工在「看起來正常」的登入頁輸入帳號密碼。</li>
+        <li id="s3">代理一邊側錄帳密，一邊把它轉送到真正的 SSO。</li>
+        <li id="s4">真 SSO 要求 MFA，員工照常輸入驗證碼，代理同樣轉送並側錄。</li>
+        <li id="s5">真 SSO 回傳登入後的 session cookie，代理把它攔下來。</li>
+        <li id="s6">攻擊者直接拿這個 cookie 就能以員工身分登入，<strong>不需要再過一次 MFA</strong>。</li>
+      </ol>
+    </section>
+
+    <section class="takeaway">
+      <h2>為什麼危險、怎麼防</h2>
+      <p>傳統觀念是「有 MFA 就安全」，但 AiTM 偷的是<span class="key">登入後的 session cookie</span>，不是密碼，所以簡訊／App 推播型 MFA 擋不住。</p>
+      <h3>防護重點</h3>
+      <ul>
+        <li><span class="key">防釣魚 MFA</span>：FIDO2 / Passkey / 硬體金鑰。它們綁定網域，在仿冒網址上根本無法完成驗證。</li>
+        <li><span class="key">條件式存取</span>：限制受管理的裝置、公司網段或特定地點才能登入。</li>
+        <li><span class="key">核對網址</span>：用書籤或自己打網址進登入頁，不要點信件連結；留意 <code>oiia-sso.com</code> 這種相似但不對的網域。</li>
+        <li><span class="key">縮短 session、綁定裝置</span>：降低 cookie 被盜用的價值。</li>
+      </ul>
+      <p style="margin-top:12px;color:var(--muted);font-size:14px">真實案例：自 2022 年起，微軟多次公開報告大規模 AiTM 釣魚攻擊，攻擊者用代理工具竊取 Microsoft 365 的 session 後接續進行商業郵件詐騙（BEC）。</p>
+    </section>
+  </main>
+
+  <footer>© 2026 Oiia Group（虛構示範網站，僅供內部 IT Sharing 使用）</footer>
+
+<script>
+  (function () {
+    var USER = 'ericdy';
+    var PASS = 'Summer2026!';
+    var $ = function (id) { return document.getElementById(id); }
+    var timers = [];
+    function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+    function clearAll() { timers.forEach(clearTimeout); timers = []; }
+
+    function reset() {
+      clearAll();
+      ['n-user', 'n-attacker', 'n-real'].forEach(function (id) { $(id).classList.remove('active'); });
+      $('f-user').textContent = '　';
+      $('f-pass').textContent = '　';
+      $('f-user').className = 'val';
+      $('f-pass').className = 'val';
+      ['loot-cred', 'loot-mfa', 'loot-cookie'].forEach(function (id) { $(id).classList.remove('show'); });
+      $('real-state').textContent = '等待登入…';
+      ['s1', 's2', 's3', 's4', 's5', 's6'].forEach(function (id) { $(id).classList.remove('on'); });
+      $('flow').textContent = '按「播放示範」開始';
+    }
+
+    function typeInto(el, text, startMs, perChar, done) {
+      el.classList.add('caret');
+      for (var i = 0; i <= text.length; i++) {
+        (function (n) {
+          at(startMs + n * perChar, function () { el.textContent = text.slice(0, n) || '　'; });
+        })(i);
+      }
+      at(startMs + text.length * perChar + 200, function () {
+        el.classList.remove('caret');
+        if (done) done();
+      });
+    }
+
+    function step(id) { ['s1','s2','s3','s4','s5','s6'].forEach(function (s) { $(s).classList.toggle('on', s === id); }); }
+
+    function play() {
+      reset();
+      // 1. 使用者到了釣魚頁
+      at(100, function () { $('n-user').classList.add('active'); step('s1'); $('flow').textContent = '① 員工點了釣魚連結，到了仿冒的 oiia-sso.com'; });
+      // 2. 輸入帳號密碼
+      at(1400, function () { step('s2'); $('flow').textContent = '② 員工在仿冒頁輸入帳號與密碼'; });
+      typeInto($('f-user'), USER, 1600, 90);
+      typeInto($('f-pass'), PASS.replace(/./g, '●'), 2500, 80);
+      // 3. 代理側錄 + 轉送
+      at(3700, function () {
+        $('n-attacker').classList.add('active'); step('s3');
+        $('loot-cred').classList.add('show');
+        $('flow').textContent = '③ 代理側錄帳密，並原封不動轉送到真 SSO';
+      });
+      at(4600, function () { $('n-real').classList.add('active'); $('real-state').textContent = '帳密正確，要求 MFA 驗證'; });
+      // 4. MFA
+      at(5500, function () { step('s4'); $('loot-mfa').classList.add('show'); $('flow').textContent = '④ 員工輸入 MFA 驗證碼，代理一樣側錄並轉送'; });
+      // 5. session cookie 被攔
+      at(6800, function () {
+        step('s5'); $('real-state').textContent = '✔ 登入成功，回傳 session cookie';
+        $('loot-cookie').classList.add('show');
+        $('flow').textContent = '⑤ 真 SSO 回傳 session cookie，代理把它攔下來';
+      });
+      // 6. 結論
+      at(8200, function () {
+        step('s6');
+        $('flow').textContent = '⑥ 攻擊者拿 cookie 直接登入，不必再過 MFA —— 這就是 AiTM 的可怕之處';
+      });
+    }
+
+    $('play').addEventListener('click', play);
+    $('reset').addEventListener('click', play);
+    reset();
+  })();
+</script>
+</body>
+</html>
