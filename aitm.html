@@ -39,6 +39,20 @@
   h1 { font-size: 24px; margin: 8px 0 4px; }
   .lead { color: var(--muted); font-size: 15px; margin: 0 0 20px; }
 
+  .story {
+    background: #eef3ff;
+    border: 1px solid #c7d9ff;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .story p { margin: 0 0 8px; font-size: 14px; }
+  .story p:last-child { margin-bottom: 0; }
+  .target {
+    font-size: 12px; font-weight: 700; color: var(--danger);
+    background: var(--danger-bg); border: 1px solid #e9a59c; border-radius: 6px;
+    padding: 4px 8px; margin-bottom: 8px; display: inline-block;
+  }
   .banner {
     background: var(--warn-bg);
     border: 1px solid #f0d58a;
@@ -148,6 +162,11 @@
     <h1>中間人釣魚攻擊（AiTM）是怎麼運作的？</h1>
     <p class="lead">AiTM（Adversary-in-the-Middle）會在你和真網站之間架一個「代理」，一邊幫你轉送到真的登入頁，一邊側錄你的帳密與登入後的 session，連 MFA 都可能被繞過。</p>
 
+    <div class="story">
+      <p>🔗 <strong>接續前面五關的劇情：</strong>攻擊者靠前面蒐集到的公開資訊，已經知道這位員工是資訊部網路組的 <strong>EricDY</strong>（就是剛剛社群貼文、識別證、重設密碼頁裡那位「熱心的同事」），連他負責的系統、作息都摸清楚了。</p>
+      <p>於是攻擊者寄出一封「看起來毫無破綻」的釣魚信，把這條偵查鏈收尾成一次真正的入侵——這就是為什麼前面那些「看似無害」的小洩漏這麼危險。</p>
+    </div>
+
     <div class="banner">🧪 這是純教學示意動畫。畫面上的帳密、cookie 全是假的，頁面<strong>沒有任何輸入欄位，不會接收、傳送或儲存任何資料</strong>。按「播放示範」看一次完整流程。</div>
 
     <div class="controls">
@@ -158,6 +177,7 @@
     <div class="stage">
       <div class="node user" id="n-user">
         <h2>👤 員工</h2>
+        <div class="target">🎯 目標：EricDY（就是前面那位同事）</div>
         <div class="who">收到一封「請重新登入」的信，點了連結</div>
         <div class="urlbar bad"><span class="lock">🔓</span><span class="host" id="user-host">oiia-sso.com</span><span>/login</span></div>
         <div class="form">
